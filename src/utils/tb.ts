@@ -14,7 +14,6 @@ interface Tab {
 
 const internalRoutes: Record<string, string> = {
   'lunar://settings': '/st',
-  'lunar://new': '/new',
   'lunar://games': '/math',
   'lunar://apps': '/sci',
 };
@@ -176,6 +175,13 @@ function updateUrlBar(tab: Tab) {
     if (!doc) return;
     
     const pathname = new URL(doc.location.href || '', location.origin).pathname;
+    
+    
+    if (pathname === '/new') {
+      urlInput.value = '';
+      return;
+    }
+    
     const route = Object.entries(internalRoutes).find(([, v]) => v === pathname);
     urlInput.value = route ? route[0] : decodeProxyUrl(pathname);
   } catch {}
@@ -209,10 +215,10 @@ function createFrame(id: number, src?: string): HTMLIFrameElement {
 
 function getTabClass(active: boolean): string {
   const base =
-    'tab flex items-center justify-between h-10 min-w-[180px] max-w-[200px] px-3 py-2 rounded-t-xl cursor-pointer select-none transition-all duration-200 relative z-10 mx-0.5 border border-b-0 border-[color:var(--border)] gap-2';
+    'tab group flex items-center justify-between h-7 min-w-[180px] max-w-[220px] px-3 py-1.5 rounded-lg cursor-pointer select-none transition-all duration-200 relative gap-2';
   return active
-    ? `${base} bg-[color:var(--background)] shadow-[0_4px_16px_#23213660] text-[color:var(--text-header)]`
-    : `${base} bg-[color:var(--background-overlay)] hover:bg-[color:var(--background)] text-[color:var(--text-secondary)] opacity-70 hover:opacity-90`;
+    ? `${base} bg-[#2a2740] text-white shadow-lg`
+    : `${base} bg-[#1f1d2e] hover:bg-[#23213a] text-[#9b98ad] hover:text-white`;
 }
 
 function createTabEl(tab: Tab): HTMLDivElement {
@@ -232,19 +238,19 @@ function createTabEl(tab: Tab): HTMLDivElement {
   icon.style.objectFit = 'contain';
   
   const title = document.createElement('span');
-  title.className = 'tab-title truncate text-sm font-normal flex-1 min-w-0';
+  title.className = 'tab-title truncate text-[13px] font-medium flex-1 min-w-0';
   title.style.overflow = 'hidden';
   title.style.textOverflow = 'ellipsis';
   title.style.whiteSpace = 'nowrap';
-  title.textContent = truncate(tab.title, 14);
+  title.textContent = truncate(tab.title, 20);
   
   left.append(icon, title);
   
   const closeBtn = document.createElement('button');
   closeBtn.className =
-    'flex items-center justify-center w-5 h-5 flex-shrink-0 rounded-full bg-transparent hover:bg-[color:var(--background-disabled)] text-[color:var(--text-secondary)] hover:text-red-400 transition-all duration-200 text-base leading-none';
+    'flex items-center justify-center w-5 h-5 flex-shrink-0 rounded-lg bg-transparent hover:bg-[#3a3758] text-[#7a7788] hover:text-white transition-all duration-200 text-lg leading-none';
   closeBtn.textContent = '×';
-  closeBtn.style.fontWeight = '400';
+  closeBtn.style.fontWeight = '300';
   closeBtn.onclick = e => {
     e.stopPropagation();
     closeTab(tab.id);
@@ -441,8 +447,14 @@ function switchTab(id: number) {
       const urlInput = document.getElementById('urlbar') as HTMLInputElement | null;
       if (urlInput) {
         const pathname = new URL(href, location.origin).pathname;
-        const route = Object.entries(internalRoutes).find(([, v]) => v === pathname);
-        urlInput.value = route ? route[0] : decodeProxyUrl(pathname);
+        
+      
+        if (pathname === '/new') {
+          urlInput.value = '';
+        } else {
+          const route = Object.entries(internalRoutes).find(([, v]) => v === pathname);
+          urlInput.value = route ? route[0] : decodeProxyUrl(pathname);
+        }
       }
       
       if (tab) {
@@ -477,15 +489,54 @@ document.addEventListener('DOMContentLoaded', () => {
   tabBar = document.getElementById('tcontainer') as HTMLDivElement | null;
   frameContainer = document.getElementById('fcontainer') as HTMLDivElement | null;
   document.getElementById('add')?.addEventListener('click', () => openTab());
+  
   const urlbar = document.getElementById('urlbar') as HTMLInputElement | null;
-  urlbar?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') showLoader();
+  
+ 
+  urlbar?.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const input = urlbar.value.trim();
+      if (!input) return;
+      
+      showLoader();
+      
+
+      if (internalRoutes[input]) {
+        const activeTab = tabs.find(t => t.id === activeId);
+        if (activeTab?.iframe) {
+          activeTab.iframe.src = internalRoutes[input];
+        }
+        return;
+      }
+      
+      
+      let url = input;
+      if (!input.includes('.') && !input.startsWith('http')) {
+      
+        url = `https://www.google.com/search?q=${encodeURIComponent(input)}`;
+      } else if (!input.startsWith('http://') && !input.startsWith('https://')) {
+     
+        url = 'https://' + input;
+      }
+      
+    
+      const proxyUrl = await encodeProxyUrl(url);
+      
+     
+      const activeTab = tabs.find(t => t.id === activeId);
+      if (activeTab?.iframe) {
+        activeTab.iframe.src = proxyUrl;
+      }
+    }
   });
+  
   setInterval(() => {
     if (!isLoading) return;
     const tab = tabs.find(t => t.id === activeId);
     if (tab?.iframe?.contentDocument?.readyState === 'complete') resetLoader();
   }, 400);
+  
   openTab();
 });
 

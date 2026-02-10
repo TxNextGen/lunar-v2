@@ -3,77 +3,94 @@ import '@/main.css';
 ---
 
 <div class="group/sidebar fixed inset-y-0 left-0 z-50 flex items-center">
+  <!-- Hover indicator bar - simplified -->
   <div
-    class="fixed top-1/2 left-0 z-60 -translate-y-1/2 cursor-pointer transition-opacity duration-300 ease-in-out group-hover/sidebar:opacity-0"
+    class="fixed top-1/2 left-0 z-60 -translate-y-1/2 transition-opacity duration-300 ease-in-out group-hover/sidebar:opacity-0"
     style="height: calc(100% - 88px); max-height: 400px; width: 24px;"
   >
     <div
-      class="absolute top-1/2 left-0 h-20 w-1.5 -translate-y-1/2 rounded-r-md bg-linear-to-b from-[#6b63ff] to-[#3e3b70] opacity-40"
+      class="absolute top-1/2 left-0 h-20 w-1.5 -translate-y-1/2 rounded-r-lg bg-[#5c59a5] opacity-60"
     >
     </div>
   </div>
+
+  <!-- Sidebar -->
   <aside
-    class="fixed top-1/2 left-8 z-50 mt-11 flex -translate-x-[120%] -translate-y-1/2 transform flex-col items-center rounded-4xl border border-[#2a2740]/60 bg-[#1f1d2e]/95 p-3 shadow-[0_12px_28px_rgba(0,0,0,0.5)] backdrop-blur-md transition-transform duration-300 ease-in-out group-hover/sidebar:-translate-x-[30%]"
+    class="fixed top-1/2 left-8 z-50 mt-11 flex -translate-x-[120%] -translate-y-1/2 transform flex-col items-center gap-2 rounded-2xl border border-[#3a3758] bg-[#1c1a2b] p-4 shadow-2xl backdrop-blur-xl transition-transform duration-300 ease-in-out group-hover/sidebar:-translate-x-[30%]"
   >
-    <div class="group relative my-2">
+    <!-- Home Button -->
+    <div class="group relative">
       <button
         data-url="/"
-        class="flex h-12 w-12 transform items-center justify-center rounded-full bg-linear-to-b from-[#2b2940] to-[#23212d] shadow-md transition-transform duration-200 ease-in-out hover:-translate-y-1 hover:shadow-2xl focus:ring-2 focus:ring-indigo-500/30 focus:outline-none active:translate-y-0"
+        class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#23213a] shadow-lg transition-all duration-200 ease-in-out hover:bg-[#2a293f] hover:scale-105 hover:shadow-xl focus:ring-2 focus:ring-[#5c59a5]/40 focus:outline-none active:scale-95"
       >
-        <img src="/a/moon.svg" alt="Logo" class="h-6 w-6 object-contain transition-transform duration-300" />
+        <img src="/a/moon.svg" alt="Logo" class="h-5 w-5 object-contain" />
       </button>
       <span
-        class="font-linux pointer-events-none absolute top-1/2 left-full ml-3 -translate-y-1/2 rounded-md bg-[#28263e] px-3 py-1 text-sm whitespace-nowrap text-[#b8bfd9] opacity-0 shadow-md transition-all duration-300 group-hover:translate-x-2 group-hover:opacity-100"
+        class="pointer-events-none absolute top-1/2 left-full ml-3 -translate-y-1/2 rounded-lg bg-[#23213a] px-3 py-1.5 text-sm whitespace-nowrap text-[#e0def4] opacity-0 shadow-lg transition-all duration-200 group-hover:translate-x-2 group-hover:opacity-100"
       >
         Home
       </span>
     </div>
-    <div class="my-2.5 flex flex-col items-center justify-center gap-3">
+
+    <!-- Divider -->
+    <div class="my-1 h-px w-8 bg-[#3a3758]"></div>
+
+    <!-- Navigation Buttons -->
+    <div class="flex flex-col items-center justify-center gap-2">
+      <!-- Games -->
       <div class="group relative">
         <button
           data-url="/math"
-          class="flex h-12 w-12 transform items-center justify-center rounded-full bg-linear-to-b from-[#2b2940] to-[#23212d] shadow-md transition-transform duration-200 ease-in-out hover:-translate-y-1 hover:shadow-lg focus:ring-2 focus:ring-indigo-500/20 focus:outline-none active:translate-y-0"
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#23213a] shadow-lg transition-all duration-200 ease-in-out hover:bg-[#2a293f] hover:scale-105 hover:shadow-xl focus:ring-2 focus:ring-[#5c59a5]/40 focus:outline-none active:scale-95"
         >
           <i
             data-lucide="gamepad"
-            class="h-5 w-5 text-[#c4c9e6] drop-shadow-sm transition-transform duration-200 ease-in-out group-hover:scale-105 group-hover:text-[#e6e9ff]"
+            class="h-5 w-5 text-[#b8bfd9] transition-all duration-200 ease-in-out group-hover:scale-110 group-hover:text-[#e0def4]"
           ></i>
         </button>
         <span
-          class="font-linux pointer-events-none absolute top-1/2 left-full ml-3 -translate-y-1/2 rounded-md bg-[#28263e] px-3 py-1 text-sm whitespace-nowrap text-[#b8bfd9] opacity-0 shadow-md transition-all duration-300 group-hover:translate-x-2 group-hover:opacity-100"
+          class="pointer-events-none absolute top-1/2 left-full ml-3 -translate-y-1/2 rounded-lg bg-[#23213a] px-3 py-1.5 text-sm whitespace-nowrap text-[#e0def4] opacity-0 shadow-lg transition-all duration-200 group-hover:translate-x-2 group-hover:opacity-100"
         >
           Games
         </span>
       </div>
+
+      <!-- Apps -->
       <div class="group relative">
         <button
           data-url="/sci"
-          class="flex h-12 w-12 transform items-center justify-center rounded-full bg-linear-to-b from-[#2b2940] to-[#23212d] shadow-md transition-transform duration-200 ease-in-out hover:-translate-y-1 hover:shadow-lg focus:ring-2 focus:ring-indigo-500/20 focus:outline-none active:translate-y-0"
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#23213a] shadow-lg transition-all duration-200 ease-in-out hover:bg-[#2a293f] hover:scale-105 hover:shadow-xl focus:ring-2 focus:ring-[#5c59a5]/40 focus:outline-none active:scale-95"
         >
           <i
             data-lucide="grip"
-            class="h-5 w-5 text-[#c4c9e6] drop-shadow-sm transition-transform duration-200 ease-in-out group-hover:scale-105 group-hover:text-[#e6e9ff]"
+            class="h-5 w-5 text-[#b8bfd9] transition-all duration-200 ease-in-out group-hover:scale-110 group-hover:text-[#e0def4]"
           ></i>
         </button>
         <span
-          class="font-linux pointer-events-none absolute top-1/2 left-full ml-3 -translate-y-1/2 rounded-md bg-[#28263e] px-3 py-1 text-sm whitespace-nowrap text-[#b8bfd9] opacity-0 shadow-md transition-all duration-300 group-hover:translate-x-2 group-hover:opacity-100"
+          class="pointer-events-none absolute top-1/2 left-full ml-3 -translate-y-1/2 rounded-lg bg-[#23213a] px-3 py-1.5 text-sm whitespace-nowrap text-[#e0def4] opacity-0 shadow-lg transition-all duration-200 group-hover:translate-x-2 group-hover:opacity-100"
         >
           Apps
         </span>
       </div>
     </div>
-    <div class="group relative my-2">
+
+    <!-- Divider -->
+    <div class="my-1 h-px w-8 bg-[#3a3758]"></div>
+
+    <!-- Settings Button -->
+    <div class="group relative">
       <button
         data-url="/st"
-        class="flex h-12 w-12 transform items-center justify-center rounded-full bg-linear-to-b from-[#2b2940] to-[#23212d] shadow-md transition-transform duration-200 ease-in-out hover:-translate-y-1 hover:shadow-lg focus:ring-2 focus:ring-indigo-500/20 focus:outline-none active:translate-y-0"
+        class="flex h-11 w-11 items-center justify-center rounded-xl bg-[#23213a] shadow-lg transition-all duration-200 ease-in-out hover:bg-[#2a293f] hover:scale-105 hover:shadow-xl focus:ring-2 focus:ring-[#5c59a5]/40 focus:outline-none active:scale-95"
       >
         <i
           data-lucide="settings"
-          class="h-5 w-5 text-[#c4c9e6] drop-shadow-sm transition-transform duration-200 ease-in-out group-hover:scale-105 group-hover:rotate-180 group-hover:text-[#e6e9ff]"
+          class="h-5 w-5 text-[#b8bfd9] transition-all duration-200 ease-in-out group-hover:scale-110 group-hover:rotate-90 group-hover:text-[#e0def4]"
         ></i>
       </button>
       <span
-        class="font-linux pointer-events-none absolute top-1/2 left-full ml-3 -translate-y-1/2 rounded-md bg-[#28263e] px-3 py-1 text-sm whitespace-nowrap text-[#b8bfd9] opacity-0 shadow-md transition-opacity duration-200 ease-in-out group-hover:translate-x-2 group-hover:opacity-100"
+        class="pointer-events-none absolute top-1/2 left-full ml-3 -translate-y-1/2 rounded-lg bg-[#23213a] px-3 py-1.5 text-sm whitespace-nowrap text-[#e0def4] opacity-0 shadow-lg transition-all duration-200 group-hover:translate-x-2 group-hover:opacity-100"
       >
         Settings
       </span>
